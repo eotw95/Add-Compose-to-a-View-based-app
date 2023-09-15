@@ -16,11 +16,17 @@
 package com.example.juicetracker.ui
 
 import android.view.ViewGroup
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.stringResource
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.juicetracker.R
 import com.example.juicetracker.data.Juice
+import com.example.juicetracker.data.JuiceColor
 
 class JuiceListAdapter(
     private var onEdit: (Juice) -> Unit,
@@ -47,6 +53,23 @@ class JuiceListAdapter(
     override fun onBindViewHolder(holder: JuiceListViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
+}
+
+@Composable
+fun ListItem(
+    input: Juice,
+    onDelete: (Juice) -> Unit,
+    modifier: Modifier = Modifier
+) {
+
+}
+
+@Composable
+fun JuiceIcon(color: String, modifier: Modifier = Modifier) {
+    val colorLabelMap = JuiceColor.values().associateBy { stringResource(it.label) }
+    val selectedColor = colorLabelMap[color]?.let { Color(it.color) }
+    val juiceIconContentDescription = stringResource(R.string.juice_color, color)
+
 }
 
 class JuiceDiffCallback : DiffUtil.ItemCallback<Juice>() {
