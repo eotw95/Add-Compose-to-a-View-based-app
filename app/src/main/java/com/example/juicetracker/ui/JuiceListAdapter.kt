@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -167,6 +168,26 @@ fun PreviewJuiceDetails() {
             rating = 4
         )
     )
+}
+
+@Composable
+fun DeleteButton(
+    onDelete: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    IconButton(
+        onClick = onDelete
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_delete),
+            contentDescription = stringResource(id = R.string.delete))
+    }
+}
+
+@Preview
+@Composable
+fun PreviewDeleteButton() {
+    DeleteButton(onDelete = {})
 }
 
 class JuiceDiffCallback : DiffUtil.ItemCallback<Juice>() {
