@@ -16,11 +16,18 @@
 package com.example.juicetracker.ui
 
 import android.view.ViewGroup
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -70,6 +77,29 @@ fun JuiceIcon(color: String, modifier: Modifier = Modifier) {
     val selectedColor = colorLabelMap[color]?.let { Color(it.color) }
     val juiceIconContentDescription = stringResource(R.string.juice_color, color)
 
+    Box(
+        modifier = modifier.semantics {
+            contentDescription = juiceIconContentDescription
+        }
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_juice_color),
+            contentDescription = null,
+            tint = selectedColor ?: Color.Red,
+            modifier = Modifier.align(Alignment.Center)
+        )
+        Icon(
+            painter = painterResource(id = R.drawable.ic_juice_clear),
+            contentDescription = null,
+
+            )
+    }
+}
+
+@Preview
+@Composable
+fun PreviewJuiceIcon() {
+    JuiceIcon("Red")
 }
 
 class JuiceDiffCallback : DiffUtil.ItemCallback<Juice>() {
