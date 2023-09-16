@@ -15,19 +15,31 @@
  */
 package com.example.juicetracker.ui
 
+import android.media.Rating
 import android.view.ViewGroup
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -101,6 +113,60 @@ fun JuiceIcon(color: String, modifier: Modifier = Modifier) {
 @Composable
 fun PreviewJuiceIcon() {
     JuiceIcon("Red")
+}
+
+@Composable
+fun JuiceDetails(
+    juice: Juice,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Top
+    ) {
+        Text(
+            text = juice.name,
+            style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
+        )
+        Text(text = juice.description)
+        RatingDisplay(
+            rating = juice.rating,
+            modifier = Modifier.padding(top = 8.dp)
+        )
+    }
+}
+
+@Composable
+fun RatingDisplay(rating: Int, modifier: Modifier) {
+//    val displayDescription = pluralStringResource(id = R.plurals.number_of_stars, count = rating)
+
+    Row(
+        modifier = modifier.semantics {
+//            contentDescription = displayDescription
+        }
+    ) {
+        repeat(rating) {
+            Image(
+                modifier = Modifier.size(32.dp),
+                painter = painterResource(id = R.drawable.baseline_star_24),
+                contentDescription = null
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewJuiceDetails() {
+    JuiceDetails(
+        Juice(
+            id = 1,
+            name = "warter",
+            color = "Red",
+            description = "aaaaaaaaaaaaaaaaaaaaaaaa",
+            rating = 4
+        )
+    )
 }
 
 class JuiceDiffCallback : DiffUtil.ItemCallback<Juice>() {
