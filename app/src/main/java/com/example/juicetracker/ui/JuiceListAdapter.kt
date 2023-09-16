@@ -41,6 +41,7 @@ class JuiceListAdapter(
 ) : ListAdapter<Juice, JuiceListAdapter.JuiceListViewHolder>(JuiceDiffCallback()) {
 
     class JuiceListViewHolder(
+        private val composeView: ComposeView,
         private val onEdit: (Juice) -> Unit,
         private val onDelete: (Juice) -> Unit
     ) : RecyclerView.ViewHolder(composeView) {
