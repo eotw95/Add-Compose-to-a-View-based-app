@@ -15,13 +15,14 @@
  */
 package com.example.juicetracker.ui
 
-import android.media.Rating
 import android.view.ViewGroup
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -33,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.textInputServiceFactory
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -47,6 +49,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.juicetracker.R
 import com.example.juicetracker.data.Juice
 import com.example.juicetracker.data.JuiceColor
+import com.google.accompanist.themeadapter.material3.Mdc3Theme
 
 class JuiceListAdapter(
     private var onEdit: (Juice) -> Unit,
@@ -60,6 +63,16 @@ class JuiceListAdapter(
     ) : RecyclerView.ViewHolder(composeView) {
 
         fun bind(juice: Juice) {
+            composeView.setContent {
+                ListItem(
+                    input = juice,
+                    onDelete = onDelete,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onEdit(juice) }
+                        .padding(vertical = 8.dp, horizontal = 16.dp)
+                )
+            }
         }
     }
 
@@ -82,7 +95,25 @@ fun ListItem(
     onDelete: (Juice) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    Mdc3Theme {
+        Row(
+            modifier = modifier,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            JuiceIcon(color = input.color)
+            JuiceDetails(juice = input, modifier = Modifier.weight(1f))
+            DeleteButton(
+                onDelete = { onDelete(input) },
+                modifier = Modifier.align(Alignment.Top)
+            )
+        }
+    }
+}
 
+@Preview
+@Composable
+fun PreviewListItem() {
+    ListItem(Juice(1, "Sweet Beet", "Apple, carrot, beet, and lemon", "Red", 4), {})
 }
 
 @Composable
